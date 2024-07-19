@@ -4,7 +4,7 @@ Able to link [TOCK](https://doc.tock.ai/) intents through botapi webhook/websock
 
 Two Differents intents (customisable in bot.kt):
 
-- llmdify: a LLM OPS platform you can deploy with docker or a helm chart
+- llmdify: [Dify.AI](https://github.com/langgenius/dify) a LLM OPS platform you can deploy with docker or a helm chart
 
 - llmopenai: any llm that provide an openAI API compliant endpoint (ollama, vllm etc)
 
