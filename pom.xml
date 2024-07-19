@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  This file is part of the tock-bot-open-data distribution.
+  ~  (https://github.com/theopenconversationkit/tock-bot-open-data)
+  ~  Copyright (c) 2017 VSCT.
+  ~
+  ~  This program is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU Affero General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~   This program is distributed in the hope that it will be useful,
+  ~   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~   GNU Affero General Public License for more details.
+  ~
+  ~   You should have received a copy of the GNU Affero General Public License
+  ~   along with this program.  If not, see <http://www.gnu.org/licenses />.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ai.tock</groupId>
+    <artifactId>tock-bot-llm-api</artifactId>
+    <version>24.3.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Tock Bot API Demo LLM</name>
+    <description>An example of bot built with Tock using Tock API</description>
+
+    <properties>
+        <scmRepositoryUri>https://gitlab-repo-gpf.apps.eul.sncf.fr/dosn/groupedsnu/05415/tock-bot-llm-api.git</scmRepositoryUri>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+        <kotlin>2.0.0</kotlin>
+        <tock>24.3.2</tock>
+        <junit-jupiter>5.10.0</junit-jupiter>
+        <mockk>1.13.11</mockk>
+
+        <slf4j>2.0.9</slf4j>
+        <logback>1.5.6</logback>
+        <kotlin-logging>3.0.5</kotlin-logging>
+
+        <plugin.surefire>3.2.5</plugin.surefire>
+        <plugin.source>3.3.1</plugin.source>
+        <plugin.release>3.0.1</plugin.release>
+        <plugin.gpg>3.2.4</plugin.gpg>
+        <plugin.nexus-staging>1.6.13</plugin.nexus-staging>
+        <plugin.dokka.version>1.9.20</plugin.dokka.version>
+
+        <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
+    </properties>
+
+    <modules>
+        <module>common</module>
+        <module>webhook</module>
+        <module>websocket</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.microutils</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+            <version>${kotlin-logging}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-stdlib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-stdlib-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test-junit</artifactId>
+            <version>${kotlin}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk-jvm</artifactId>
+            <version>${mockk}</version>
+            <scope>test</scope>
+        </dependency>
+<!--        OpenAI Standard API dépendancies-->
+        <dependency>
+            <groupId>com.aallam.openai</groupId>
+            <artifactId>openai-client-jvm</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-okhttp-jvm</artifactId>
+            <version>2.3.2</version>
+            <scope>runtime</scope>
+        </dependency>
+<!--        Dify dependancies when available--> 
+        <!--<dependency>
+            <groupId>ai.dify</groupId>
+            <artifactId>java-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.51</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>${sourceDirectory}</sourceDirectory>
+        <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin}</version>
+
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${plugin.surefire}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.*</include>
+                        <include>**/*Spec.*</include>
+                        <include>**/*Fix.*</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${plugin.source}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${plugin.release}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <releaseProfiles>deploy</releaseProfiles>
+                    <tagNameFormat>bot-api-demo-@{project.version}</tagNameFormat>
+                    <preparationGoals>clean package dokka:javadocJar verify</preparationGoals>
+                    <goals>package dokka:javadocJar deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${plugin.nexus-staging}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${plugin.gpg}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>${plugin.dokka.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>dokka</goal>
+                            <goal>javadoc</goal>
+                            <goal>javadocJar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>bintray-tock-tock</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/tock/tock</url>
+        </repository>
+        <repository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+        <repository>
+            <id>maven-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <inceptionYear>2019</inceptionYear>
+    <organization>
+        <name>theopenconversationkit</name>
+    </organization>
+    <developers>
+        <developer>
+            <id>jburet_vsct</id>
+            <name>Julien Buret</name>
+            <email>jburet@voyages-sncf.com</email>
+            <organization>theopenconversationkit</organization>
+            <organizationUrl>https://www.voyages-sncf.com/</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License (AGPL) version 3.0</name>
+            <url>https://www.gnu.org/licenses/agpl.txt</url>
+            <distribution>repo</distribution>
+            <comments />
+        </license>
+    </licenses>
+
+    <scm>
+        <url>${scmRepositoryUri}</url>
+        <connection>scm:git:${scmRepositoryUri}</connection>
+        <developerConnection>scm:git:${scmRepositoryUri}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!--    NOUVELLE CONFIGURATION eSNCF-->
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>artefact-repo-releases</name>
+            <url>https://artefact-repo.apps.eul.sncf.fr/artifactory/maven_05415_prod</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>artefact-repo-snapshots</name>
+            <url>https://artefact-repo.apps.eul.sncf.fr/artifactory/maven_05415_dev</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>build</id>
+            <activation>
+                <property>
+                    <name>!deploy</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>true</gpg.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>deploy</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
